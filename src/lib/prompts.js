@@ -81,6 +81,11 @@ export function getExercisePrompt(topic, level) {
 
 NIVEL DE DIFICULTAD: ${difficulty}
 
+VARIACIÓN OBLIGATORIA:
+- Usa un escenario DIFERENTE cada vez. Inventa nombres de investigadores, universidades, y estudios ficticios variados.
+- Cambia los números, el contexto específico y el tipo de pregunta de interpretación.
+- Seed aleatorio para esta generación: ${Date.now()}
+
 REGLAS IMPORTANTES:
 - El contexto SIEMPRE debe ser un ejemplo de psicología (estudio, experimento, escala, intervención terapéutica).
 - NUNCA pidas que el estudiante haga cálculos. Los pasos muestran el cálculo ya resuelto.
@@ -123,6 +128,12 @@ NOTAS:
  */
 export function getEvalPrompt(topic) {
   return `Genera una evaluación de 5 preguntas de opción múltiple sobre "${topic}" para un estudiante de psicología con discalculia.
+
+VARIACIÓN OBLIGATORIA:
+- Cada evaluación debe usar escenarios COMPLETAMENTE DIFERENTES a los anteriores.
+- Inventa nombres de investigadores, estudios y contextos ficticios variados.
+- No repitas la misma estructura de pregunta. Varía entre interpretar p-valores, elegir la prueba correcta, identificar supuestos, etc.
+- Seed aleatorio para esta generación: ${Date.now()}
 
 REGLAS IMPORTANTES:
 - Todas las preguntas deben usar contextos de psicología (estudios, experimentos, escalas, terapias).
