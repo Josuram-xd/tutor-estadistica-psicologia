@@ -15,24 +15,40 @@ const TOPICS = [
 
 const LEVEL_CONFIG = {
   no_visto: {
-    label: 'No visto',
-    color: 'bg-gray-100 text-gray-700',
+    label: '',
+    emoji: '',
+    color: 'bg-gray-50 text-gray-400',
     order: 0,
   },
   basico: {
-    label: 'Básico',
-    color: 'bg-accent-50 text-accent-900',
+    label: 'Novato',
+    emoji: '🌱',
+    color: 'bg-green-50 text-green-700',
     order: 1,
   },
   intermedio: {
-    label: 'Intermedio',
-    color: 'bg-primary-50 text-primary-800',
+    label: 'Aprendiz',
+    emoji: '📖',
+    color: 'bg-blue-50 text-blue-700',
     order: 2,
   },
   avanzado: {
-    label: 'Avanzado',
-    color: 'bg-amber-50 text-amber-800',
+    label: 'Competente',
+    emoji: '💪',
+    color: 'bg-purple-50 text-purple-700',
     order: 3,
+  },
+  experto: {
+    label: 'Experto',
+    emoji: '🧠',
+    color: 'bg-amber-50 text-amber-700',
+    order: 4,
+  },
+  maestro: {
+    label: 'Maestro',
+    emoji: '🏆',
+    color: 'bg-yellow-50 text-yellow-700',
+    order: 5,
   },
 };
 
@@ -151,12 +167,19 @@ export default function ProgresoPage() {
                   <h2 className="text-lg font-semibold text-foreground">
                     {topic}
                   </h2>
-                  <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-base font-medium ${levelInfo.color}`}
-                    aria-label={`Nivel: ${levelInfo.label}`}
-                  >
-                    {levelInfo.label}
-                  </span>
+                  {levelInfo.label ? (
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-base font-medium ${levelInfo.color}`}
+                      aria-label={`Nivel: ${levelInfo.label}`}
+                    >
+                      <span aria-hidden="true">{levelInfo.emoji}</span>
+                      {levelInfo.label}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-base text-gray-400 bg-gray-50">
+                      Sin empezar
+                    </span>
+                  )}
                 </div>
 
                 {/* Statistics */}

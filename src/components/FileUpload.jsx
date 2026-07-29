@@ -159,7 +159,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
   return (
     <div
       className={`
-        fixed inset-0 z-50
+        fixed inset-0 z-[60]
         flex items-end justify-center
         transition-colors duration-300 ease-out
         ${isVisible ? 'bg-black/40' : 'bg-transparent'}
@@ -173,14 +173,14 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
       <div
         ref={modalRef}
         className={`
-          w-full max-w-mobile
-          max-h-[85vh]
+          w-full max-w-lg
+          max-h-[90vh]
           overflow-y-auto
           overscroll-contain
           bg-white
           rounded-t-3xl
           shadow-xl
-          px-5 pt-5 pb-8
+          px-5 pt-5 pb-10
           transform transition-transform duration-300 ease-out
           ${isVisible ? 'translate-y-0' : 'translate-y-full'}
         `}
@@ -351,7 +351,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               value={textContent}
               onChange={(e) => setTextContent(e.target.value)}
               placeholder="Pega aquí el texto de tu material de estudio..."
-              rows={5}
+              rows={6}
               className="
                 w-full
                 rounded-2xl
@@ -362,7 +362,8 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 placeholder:text-gray-500
                 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400
                 transition-colors
-                resize-none
+                resize-y
+                min-h-[120px]
               "
               style={{ fontSize: '16px' }}
               aria-label="Texto del material de estudio"

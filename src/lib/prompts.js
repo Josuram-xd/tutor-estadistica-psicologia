@@ -49,9 +49,11 @@ ${progressSummary || "Sin progreso registrado aún."}
 
 ADAPTACIÓN DE DIFICULTAD:
 - Si el nivel es "no_visto": introduce el tema desde cero con ejemplos muy básicos de psicología.
-- Si el nivel es "basico": refuerza conceptos fundamentales, usa más ejemplos.
-- Si el nivel es "intermedio": puedes profundizar, conectar con otros temas, pedir interpretaciones más elaboradas.
-- Si el nivel es "avanzado": discute casos complejos, limitaciones del método, cuándo NO usar la prueba.${materialSection}
+- Si el nivel es "basico" (Novato): refuerza conceptos fundamentales, usa más ejemplos sencillos.
+- Si el nivel es "intermedio" (Aprendiz): puedes profundizar, conectar con otros temas, pedir interpretaciones más elaboradas.
+- Si el nivel es "avanzado" (Competente): discute casos más complejos, introduce matices y excepciones.
+- Si el nivel es "experto" (Experto): analiza limitaciones del método, cuándo NO usar la prueba, alternativas.
+- Si el nivel es "maestro" (Maestro): discute controversias, meta-análisis, tamaño del efecto, replicabilidad.${materialSection}
 
 FORMATO DE RESPUESTA:
 - Usa párrafos cortos y separados.
@@ -70,9 +72,11 @@ FORMATO DE RESPUESTA:
 export function getExercisePrompt(topic, level) {
   const difficultyGuide = {
     no_visto: "Muy básico. Introduce el concepto con un ejemplo simple y cotidiano de psicología. Los pasos deben ser muy cortos y explicativos. La pregunta de interpretación debe ser directa y sencilla.",
-    basico: "Básico. Usa un escenario de investigación en psicología sencillo. Los pasos explican el procedimiento claramente. La pregunta de interpretación requiere comprensión del concepto.",
-    intermedio: "Intermedio. Usa un escenario realista de investigación. Los pasos incluyen más detalle del análisis. La pregunta de interpretación requiere conectar el resultado con la conclusión del estudio.",
-    avanzado: "Avanzado. Usa un escenario complejo con posibles violaciones de supuestos o decisiones metodológicas. La pregunta de interpretación requiere pensamiento crítico sobre limitaciones o alternativas.",
+    basico: "Básico (Novato). Usa un escenario de investigación en psicología sencillo. Los pasos explican el procedimiento claramente. La pregunta de interpretación requiere comprensión del concepto.",
+    intermedio: "Intermedio (Aprendiz). Usa un escenario realista de investigación. Los pasos incluyen más detalle del análisis. La pregunta de interpretación requiere conectar el resultado con la conclusión del estudio.",
+    avanzado: "Avanzado (Competente). Usa un escenario complejo con posibles violaciones de supuestos o decisiones metodológicas. La pregunta de interpretación requiere pensamiento crítico sobre limitaciones o alternativas.",
+    experto: "Experto. Escenario con múltiples variables, diseño complejo. La pregunta requiere evaluar cuándo NO usar la prueba o qué alternativa sería mejor.",
+    maestro: "Maestro. Escenario avanzado que involucra meta-análisis, tamaño del efecto, potencia estadística o replicabilidad. La pregunta requiere juicio crítico sobre la validez de las conclusiones.",
   };
 
   const difficulty = difficultyGuide[level] || difficultyGuide["basico"];

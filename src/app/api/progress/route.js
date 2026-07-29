@@ -6,18 +6,22 @@ import supabase from '@/lib/supabase';
  * 
  * Lógica de progresión:
  * - no_visto: Sin ejercicios completados
- * - básico: ≥2 ejercicios completados
- * - intermedio: ≥5 ejercicios + ≥60% aciertos
- * - avanzado: ≥10 ejercicios + ≥80% aciertos
+ * - basico: ≥1 ejercicio completado (Novato)
+ * - intermedio: ≥5 ejercicios + ≥60% aciertos (Aprendiz)
+ * - avanzado: ≥10 ejercicios + ≥75% aciertos (Competente)
+ * - experto: ≥15 ejercicios + ≥85% aciertos (Experto)
+ * - maestro: ≥20 ejercicios + ≥90% aciertos (Maestro)
  */
 function calculateLevel(exercisesCompleted, correctAnswers) {
   if (exercisesCompleted === 0) return 'no_visto';
 
   const correctRate = correctAnswers / exercisesCompleted;
 
-  if (exercisesCompleted >= 10 && correctRate >= 0.8) return 'avanzado';
+  if (exercisesCompleted >= 20 && correctRate >= 0.9) return 'maestro';
+  if (exercisesCompleted >= 15 && correctRate >= 0.85) return 'experto';
+  if (exercisesCompleted >= 10 && correctRate >= 0.75) return 'avanzado';
   if (exercisesCompleted >= 5 && correctRate >= 0.6) return 'intermedio';
-  if (exercisesCompleted >= 2) return 'basico';
+  if (exercisesCompleted >= 1) return 'basico';
 
   return 'no_visto';
 }

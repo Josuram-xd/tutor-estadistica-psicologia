@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS progress (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   topic TEXT NOT NULL,
-  level TEXT NOT NULL DEFAULT 'no_visto' CHECK (level IN ('no_visto', 'basico', 'intermedio', 'avanzado')),
+  level TEXT NOT NULL DEFAULT 'no_visto' CHECK (level IN ('no_visto', 'basico', 'intermedio', 'avanzado', 'experto', 'maestro')),
   exercises_completed INTEGER DEFAULT 0,
   correct_answers INTEGER DEFAULT 0,
   updated_at TIMESTAMPTZ DEFAULT NOW(),
