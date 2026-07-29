@@ -1,9 +1,11 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 /**
- * Tipos de error de Gemini para clasificación.
+ * Tipos de error para clasificación.
  */
 export const GeminiErrorType = {
   RATE_LIMIT: "RATE_LIMIT",
@@ -13,7 +15,7 @@ export const GeminiErrorType = {
 };
 
 /**
- * Error personalizado para errores de Gemini con clasificación.
+ * Error personalizado con clasificación.
  */
 export class GeminiError extends Error {
   constructor(message, type, originalError = null) {
@@ -25,22 +27,18 @@ export class GeminiError extends Error {
 }
 
 /**
- * Clasifica un error de Gemini según su tipo.
- *
- * @param {Error} error - Error original capturado
- * @returns {GeminiError} Error clasificado
+ * Clasifica un error según su tipo.
  */
 function classifyError(error) {
   const message = error.message || "";
-  const status = error.status || error.httpStatusCode || null;
+  const status = error.status || error.statusCode || null;
 
   // Rate limiting (429)
   if (
     status === 429 ||
     message.includes("429") ||
     message.toLowerCase().includes("rate") ||
-    message.toLowerCase().includes("quota") ||
-    message.toLowerCase().includes("resource exhausted")
+    message.toLowerCase().includes("quota")
   ) {
     return new GeminiError(
       "Rate limit alcanzado",
@@ -54,10 +52,7 @@ function classifyError(error) {
     status === 503 ||
     status === 500 ||
     status === 502 ||
-    message.includes("503") ||
-    message.includes("500") ||
     message.toLowerCase().includes("unavailable") ||
-    message.toLowerCase().includes("internal") ||
     message.toLowerCase().includes("overloaded")
   ) {
     return new GeminiError(
@@ -72,11 +67,7 @@ function classifyError(error) {
     message.toLowerCase().includes("network") ||
     message.toLowerCase().includes("timeout") ||
     message.toLowerCase().includes("econnrefused") ||
-    message.toLowerCase().includes("enotfound") ||
-    message.toLowerCase().includes("fetch failed") ||
-    error.code === "ECONNREFUSED" ||
-    error.code === "ENOTFOUND" ||
-    error.code === "ETIMEDOUT"
+    message.toLowerCase().includes("fetch failed")
   ) {
     return new GeminiError(
       "Error de red",
@@ -85,74 +76,48 @@ function classifyError(error) {
     );
   }
 
-  // Error desconocido
   return new GeminiError(
-    message || "Error desconocido al comunicarse con Gemini",
+    message || "Error desconocido",
     GeminiErrorType.UNKNOWN,
     error
   );
 }
 
 /**
- * Genera una respuesta usando Gemini 2.5 Flash.
+ * Genera una respuesta usando Groq (Llama 3).
  *
  * @param {string} systemPrompt - Instrucciones de sistema para el modelo
  * @param {Array<{role: string, content: string}>} history - Historial de conversación [{role, content}]
  * @param {string} userMessage - Mensaje actual del usuario
- * @param {string|null} imageBase64 - Imagen en base64 para OCR (opcional)
  * @returns {Promise<string>} Texto de respuesta generado
  * @throws {GeminiError} Error clasificado con tipo específico
  */
-export async function generateResponse(systemPrompt, history, userMessage, imageBase64 = null) {
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
-    systemInstruction: systemPrompt,
-  });
+export async function generateResponse(systemPrompt, history, userMessage) {
+  // Construir mensajes en formato OpenAI/Groq
+  const messages = [
+    { role: "system", content: systemPrompt },
+  ];
 
-  // Convertir historial al formato del SDK de Gemini
-  // El SDK espera: { role: "user" | "model", parts: [{ text }] }
-  const geminiHistory = (history || []).map((msg) => ({
-    role: msg.role === "assistant" ? "model" : msg.role,
-    parts: [{ text: msg.content }],
-  }));
-
-  // Construir las partes del mensaje actual
-  const currentParts = [];
-
-  if (imageBase64) {
-    // Extraer el tipo MIME si viene con el prefijo data:image/...;base64,
-    let mimeType = "image/jpeg";
-    let base64Data = imageBase64;
-
-    if (imageBase64.includes(",")) {
-      const [header, data] = imageBase64.split(",");
-      const mimeMatch = header.match(/data:(.+);base64/);
-      if (mimeMatch) {
-        mimeType = mimeMatch[1];
-      }
-      base64Data = data;
-    }
-
-    currentParts.push({
-      inlineData: {
-        mimeType,
-        data: base64Data,
-      },
+  // Agregar historial
+  for (const msg of (history || [])) {
+    messages.push({
+      role: msg.role === "assistant" ? "assistant" : "user",
+      content: msg.content,
     });
   }
 
-  currentParts.push({ text: userMessage });
+  // Agregar mensaje actual
+  messages.push({ role: "user", content: userMessage });
 
   try {
-    // Iniciar chat con historial y enviar mensaje
-    const chat = model.startChat({
-      history: geminiHistory,
+    const chatCompletion = await groq.chat.completions.create({
+      messages,
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+      max_tokens: 2048,
     });
 
-    const result = await chat.sendMessage(currentParts);
-    const response = result.response;
-
-    return response.text();
+    return chatCompletion.choices[0]?.message?.content || "No pude generar una respuesta.";
   } catch (error) {
     throw classifyError(error);
   }

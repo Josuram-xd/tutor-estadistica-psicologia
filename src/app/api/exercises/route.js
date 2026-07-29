@@ -63,8 +63,7 @@ export async function POST(request) {
     const responseText = await generateResponse(
       systemInstruction,
       [], // Sin historial
-      exercisePrompt,
-      null // Sin imagen
+      exercisePrompt
     );
 
     // Parsear la respuesta JSON de Gemini

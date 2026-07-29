@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { extractTextFromPDF } from '@/lib/pdf';
-import { generateResponse } from '@/lib/gemini';
 import supabase from '@/lib/supabase';
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
@@ -131,7 +130,7 @@ async function handleJsonUpload(request) {
 }
 
 /**
- * Procesa una foto enviando a Gemini Vision para OCR.
+ * Procesa una foto. OCR no disponible con el modelo actual.
  */
 async function handlePhotoOcr(imageBase64, conversationId, userId) {
   if (!imageBase64) {
@@ -141,66 +140,10 @@ async function handlePhotoOcr(imageBase64, conversationId, userId) {
     );
   }
 
-  // Validar que parece una data URL de imagen válida
-  if (!imageBase64.startsWith('data:image/')) {
-    return NextResponse.json(
-      { error: 'Formato de imagen no válido.' },
-      { status: 400 }
-    );
-  }
-
-  try {
-    // Usar Gemini Vision para OCR — prompt en español
-    const ocrPrompt = 'Extrae todo el texto visible en esta imagen. Devuelve solo el texto extraído, sin explicaciones adicionales.';
-
-    const extractedText = await generateResponse(
-      'Eres un asistente de OCR. Tu única tarea es extraer texto de imágenes con la mayor precisión posible.',
-      [], // Sin historial — es una petición aislada de OCR
-      ocrPrompt,
-      imageBase64
-    );
-
-    if (!extractedText || extractedText.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'No se pudo extraer texto de la imagen. Verifica que la foto contenga texto legible.' },
-        { status: 422 }
-      );
-    }
-
-    // Truncar a 15,000 caracteres
-    const truncatedText = extractedText.trim().slice(0, MAX_TEXT_LENGTH);
-
-    // Guardar material_context en la conversación del usuario
-    await saveMaterialContext(conversationId, userId, truncatedText);
-
-    return NextResponse.json({
-      success: true,
-      text: truncatedText,
-      charCount: truncatedText.length,
-    });
-  } catch (error) {
-    console.error('Error en OCR con Gemini:', error);
-
-    // Mensajes de error amigables según el tipo de error
-    if (error.type === 'RATE_LIMIT') {
-      return NextResponse.json(
-        { error: 'Demasiadas solicitudes. Espera un momento e intenta de nuevo.' },
-        { status: 429 }
-      );
-    }
-
-    if (error.type === 'API_UNAVAILABLE') {
-      return NextResponse.json(
-        { error: 'El servicio de OCR no está disponible en este momento. Intenta más tarde.' },
-        { status: 503 }
-      );
-    }
-
-    return NextResponse.json(
-      { error: 'Error al procesar la imagen. Intenta de nuevo.' },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    { error: 'El reconocimiento de texto en fotos no está disponible en este momento. Usa la opción de texto o PDF.' },
+    { status: 501 }
+  );
 }
 
 /**

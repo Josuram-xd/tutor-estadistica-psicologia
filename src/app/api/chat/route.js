@@ -77,7 +77,7 @@ export async function POST(request) {
     try {
       aiResponse = await generateResponse(systemPrompt, history, message);
     } catch (geminiError) {
-      console.error("Error de Gemini:", geminiError);
+      console.error("Error de Gemini:", geminiError.message, geminiError.type, geminiError.originalError?.message);
 
       switch (geminiError.type) {
         case GeminiErrorType.RATE_LIMIT:

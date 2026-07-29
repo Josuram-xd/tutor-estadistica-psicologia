@@ -42,7 +42,7 @@ export default function EjerciciosPage() {
     setSlides([]);
 
     try {
-      const userId = localStorage.getItem('userId') || '';
+      const userId = localStorage.getItem('user_id') || '';
 
       const response = await fetch('/api/exercises', {
         method: 'POST',
@@ -250,7 +250,7 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
 
     // Fire-and-forget: actualizar progreso en el servidor
     const isCorrect = selectedOption === respuestaCorrecta;
-    const userId = localStorage.getItem('userId') || '';
+    const userId = localStorage.getItem('user_id') || '';
     if (userId && topic) {
       fetch('/api/progress', {
         method: 'POST',

@@ -5,12 +5,7 @@
  * - Usuario: alineada a la derecha, color primary suave
  * - Tutor: alineada a la izquierda, color accent suave
  *
- * Diseño accesible (NFR-2):
- *   - Bordes redondeados 3xl (24px) para apariencia amigable
- *   - Padding generoso (px-5 py-4)
- *   - Texto mínimo 16px (text-base) con leading-relaxed
- *   - Colores suaves con contraste ≥4.5:1
- *   - Botón "Explícamelo de otra forma" con min 44px touch target
+ * Soporta markdown básico: **negritas**, *cursivas*, `código`
  *
  * Props:
  *   role: 'user' | 'assistant'
@@ -36,9 +31,8 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
               : 'bg-accent-50 text-gray-900 rounded-3xl rounded-bl-xl border border-accent-100'
             }
           `}
-        >
-          {content}
-        </div>
+          dangerouslySetInnerHTML={{ __html: formatMarkdown(content) }}
+        />
 
         {/* Botón "Explícamelo de otra forma" solo para respuestas del tutor */}
         {!isUser && onExplainDifferently && (
@@ -61,4 +55,30 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
       </div>
     </div>
   );
+}
+
+/**
+ * Convierte markdown básico a HTML seguro.
+ * Soporta: **negritas**, *cursivas*, `código inline`
+ * Escapa HTML para prevenir XSS.
+ */
+function formatMarkdown(text) {
+  if (!text) return '';
+
+  // Escapar HTML para seguridad
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // **negritas**
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  // *cursivas* (solo si no es parte de negritas ya procesadas)
+  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+
+  // `código inline`
+  html = html.replace(/`(.+?)`/g, '<code class="bg-gray-200 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>');
+
+  return html;
 }

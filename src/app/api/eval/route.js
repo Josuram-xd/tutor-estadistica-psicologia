@@ -47,8 +47,7 @@ export async function POST(request) {
     const responseText = await generateResponse(
       systemInstruction,
       [], // Sin historial
-      evalPrompt,
-      null // Sin imagen
+      evalPrompt
     );
 
     // Parsear la respuesta JSON de Gemini

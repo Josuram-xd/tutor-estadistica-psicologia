@@ -43,7 +43,7 @@ export default function EvaluacionPage() {
     setShowFeedback(false);
 
     try {
-      const userId = localStorage.getItem('userId') || '';
+      const userId = localStorage.getItem('user_id') || '';
 
       const response = await fetch('/api/eval', {
         method: 'POST',
@@ -116,7 +116,7 @@ export default function EvaluacionPage() {
       const totalCorrect = allAnswers.filter((a) => a.isCorrect).length;
 
       // Enviar actualización consolidada al finalizar la evaluación
-      const userId = localStorage.getItem('userId') || '';
+      const userId = localStorage.getItem('user_id') || '';
       if (userId && selectedTopic && totalExercises > 0) {
         fetch('/api/progress', {
           method: 'PUT',

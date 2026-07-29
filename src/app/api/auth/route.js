@@ -17,8 +17,9 @@ export async function POST(request) {
       );
     }
   } catch (error) {
+    console.error('Auth error:', error);
     return NextResponse.json(
-      { error: 'Error interno del servidor' },
+      { error: 'Error interno del servidor: ' + error.message },
       { status: 500 }
     );
   }
@@ -71,8 +72,9 @@ async function handleRegister(username, password) {
     .single();
 
   if (error) {
+    console.error('Supabase insert error:', error);
     return NextResponse.json(
-      { error: 'Error al registrar usuario' },
+      { error: 'Error al registrar usuario: ' + error.message },
       { status: 500 }
     );
   }
