@@ -177,7 +177,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
           max-h-[90vh]
           overflow-y-auto
           overscroll-contain
-          bg-white
+          bg-white dark:bg-gray-900
           rounded-t-3xl
           shadow-xl
           px-5 pt-5 pb-10
@@ -187,12 +187,12 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
       >
         {/* Handle bar indicator */}
         <div className="flex justify-center mb-4">
-          <div className="w-10 h-1 bg-gray-300 rounded-full" aria-hidden="true" />
+          <div className="w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full" aria-hidden="true" />
         </div>
 
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
             Subir material
           </h2>
           <button
@@ -202,8 +202,8 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               w-11 h-11
               min-h-touch min-w-touch
               rounded-full
-              bg-gray-100 hover:bg-gray-200
-              text-gray-600
+              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600
+              text-gray-600 dark:text-gray-300
               transition-colors duration-200
             "
             aria-label="Cerrar modal"
@@ -227,7 +227,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
         {/* Error message */}
         {error && (
           <div
-            className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-2xl text-base text-red-700"
+            className="mb-4 px-4 py-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-2xl text-base text-red-700 dark:text-red-300"
             role="alert"
           >
             {error}
@@ -249,10 +249,10 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 w-full
                 min-h-touch
                 px-5 py-4
-                bg-primary-50 hover:bg-primary-100
-                border border-primary-200
+                bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50
+                border border-primary-200 dark:border-primary-800
                 rounded-2xl
-                text-base font-medium text-primary-800
+                text-base font-medium text-primary-800 dark:text-primary-300
                 transition-colors duration-200
               "
               aria-label="Subir archivo PDF"
@@ -260,7 +260,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📄</span>
               <div className="text-left">
                 <span className="block text-base font-medium">PDF</span>
-                <span className="block text-base text-primary-800">Sube un documento PDF</span>
+                <span className="block text-base text-primary-800 dark:text-primary-400">Sube un documento PDF</span>
               </div>
             </button>
 
@@ -275,10 +275,10 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 w-full
                 min-h-touch
                 px-5 py-4
-                bg-accent-50 hover:bg-accent-100
-                border border-accent-200
+                bg-accent-50 dark:bg-accent-900/30 hover:bg-accent-100 dark:hover:bg-accent-900/50
+                border border-accent-200 dark:border-accent-800
                 rounded-2xl
-                text-base font-medium text-accent-800
+                text-base font-medium text-accent-800 dark:text-accent-300
                 transition-colors duration-200
               "
               aria-label="Subir foto para OCR"
@@ -286,7 +286,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📷</span>
               <div className="text-left">
                 <span className="block text-base font-medium">Foto</span>
-                <span className="block text-base text-accent-900">Toma una foto o sube una imagen</span>
+                <span className="block text-base text-accent-900 dark:text-accent-400">Toma una foto o sube una imagen</span>
               </div>
             </button>
 
@@ -298,10 +298,10 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 w-full
                 min-h-touch
                 px-5 py-4
-                bg-gray-50 hover:bg-gray-100
-                border border-gray-200
+                bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700
+                border border-gray-200 dark:border-gray-600
                 rounded-2xl
-                text-base font-medium text-gray-800
+                text-base font-medium text-gray-800 dark:text-gray-200
                 transition-colors duration-200
               "
               aria-label="Pegar texto como material"
@@ -309,7 +309,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📝</span>
               <div className="text-left">
                 <span className="block text-base font-medium">Texto</span>
-                <span className="block text-base text-gray-600">Pega texto directamente</span>
+                <span className="block text-base text-gray-600 dark:text-gray-400">Pega texto directamente</span>
               </div>
             </button>
           </div>
@@ -323,11 +323,11 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               className="
                 self-start
                 flex items-center gap-1
-                text-base text-primary-600
+                text-base text-primary-600 dark:text-primary-400
                 min-h-touch
                 px-2
                 transition-colors duration-200
-                hover:text-primary-800
+                hover:text-primary-800 dark:hover:text-primary-300
               "
               aria-label="Volver a opciones"
             >
@@ -355,12 +355,13 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               className="
                 w-full
                 rounded-2xl
-                border border-gray-300
-                bg-gray-50
+                border border-gray-300 dark:border-gray-600
+                bg-gray-50 dark:bg-gray-800
                 px-4 py-3
                 text-base
-                placeholder:text-gray-500
-                focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400
+                text-gray-900 dark:text-gray-100
+                placeholder:text-gray-500 dark:placeholder:text-gray-500
+                focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-700 focus:border-primary-400 dark:focus:border-primary-500
                 transition-colors
                 resize-y
                 min-h-[120px]
@@ -377,7 +378,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 min-h-touch
                 px-5 py-3
                 bg-primary-600 hover:bg-primary-700
-                disabled:bg-gray-300 disabled:cursor-not-allowed
+                disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed
                 text-white text-base font-medium
                 rounded-2xl
                 transition-colors duration-200

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import DarkModeToggle from './DarkModeToggle';
 
 const tabs = [
   { label: 'Chat', href: '/chat', icon: '💬' },
@@ -15,7 +16,7 @@ export default function Navigation() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 pb-safe-bottom"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 pb-safe-bottom"
       role="navigation"
       aria-label="Navegación principal"
     >
@@ -36,8 +37,8 @@ export default function Navigation() {
                   text-base
                   transition-colors duration-200
                   ${isActive
-                    ? 'text-primary-800 bg-primary-100 font-semibold'
-                    : 'text-gray-500 font-medium hover:text-primary-700 hover:bg-gray-50'
+                    ? 'text-primary-800 dark:text-primary-300 bg-primary-100 dark:bg-primary-900/40 font-semibold'
+                    : 'text-gray-500 dark:text-gray-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
@@ -45,7 +46,7 @@ export default function Navigation() {
                 {/* Active indicator bar */}
                 {isActive && (
                   <span
-                    className="absolute top-0 left-1/4 right-1/4 h-[3px] rounded-full bg-primary-600"
+                    className="absolute top-0 left-1/4 right-1/4 h-[3px] rounded-full bg-primary-600 dark:bg-primary-400"
                     aria-hidden="true"
                   />
                 )}
@@ -57,6 +58,10 @@ export default function Navigation() {
             </li>
           );
         })}
+        {/* Dark mode toggle */}
+        <li className="flex items-center justify-center">
+          <DarkModeToggle />
+        </li>
       </ul>
     </nav>
   );

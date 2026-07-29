@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
-      <body className="antialiased min-h-screen">
+      <body className="antialiased min-h-screen bg-[var(--background)] text-[var(--foreground)]">
         <ContentWrapper>{children}</ContentWrapper>
         <NavigationWrapper />
       </body>

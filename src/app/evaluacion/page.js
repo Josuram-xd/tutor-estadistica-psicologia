@@ -189,7 +189,7 @@ export default function EvaluacionPage() {
   return (
     <div className="flex flex-col h-full w-full max-w-lg mx-auto px-3 sm:px-4 py-4 gap-5">
       {/* Header */}
-      <h1 className="text-2xl font-semibold text-primary-700 text-center">
+      <h1 className="text-2xl font-semibold text-primary-700 dark:text-primary-300 text-center">
         Evaluación
       </h1>
 
@@ -200,7 +200,7 @@ export default function EvaluacionPage() {
           <div className="flex flex-col gap-2 px-1">
             <label
               htmlFor="eval-topic-select"
-              className="text-base font-medium text-gray-700"
+              className="text-base font-medium text-gray-700 dark:text-gray-300"
             >
               Selecciona un tema para la prueba
             </label>
@@ -208,7 +208,7 @@ export default function EvaluacionPage() {
               id="eval-topic-select"
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="w-full min-h-touch px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
+              className="w-full min-h-touch px-4 py-3 text-base bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl shadow-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-500 focus:border-primary-600 appearance-none cursor-pointer"
               aria-label="Seleccionar tema para evaluación"
             >
               <option value="" disabled>
@@ -227,7 +227,7 @@ export default function EvaluacionPage() {
             <button
               onClick={handleStartEval}
               disabled={!selectedTopic}
-              className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
+              className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
               aria-label="Empezar prueba del tema seleccionado"
             >
               Empezar prueba
@@ -238,15 +238,15 @@ export default function EvaluacionPage() {
           {error && (
             <div
               role="alert"
-              className="mx-1 px-4 py-3 text-base bg-red-50 border border-red-200 text-red-700 rounded-2xl"
+              className="mx-1 px-4 py-3 text-base bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-2xl"
             >
               {error}
             </div>
           )}
 
           {/* Placeholder */}
-          <div className="flex-1 flex items-center justify-center min-h-[200px] mx-1 rounded-2xl border border-dashed border-gray-200 bg-gray-50">
-            <p className="text-base text-gray-500 text-center px-4 leading-[1.6]">
+          <div className="flex-1 flex items-center justify-center min-h-[200px] mx-1 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <p className="text-base text-gray-500 dark:text-gray-400 text-center px-4 leading-[1.6]">
               La prueba tiene 5 preguntas de opción múltiple con feedback inmediato
             </p>
           </div>
@@ -255,9 +255,9 @@ export default function EvaluacionPage() {
 
       {/* ===== FASE: CARGANDO ===== */}
       {phase === 'loading' && (
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[300px] mx-1 rounded-2xl border border-dashed border-primary-200 bg-primary-50 gap-4">
+        <div className="flex-1 flex flex-col items-center justify-center min-h-[300px] mx-1 rounded-2xl border border-dashed border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-900/30 gap-4">
           <LoadingSpinner size="lg" />
-          <p className="text-base text-primary-800 text-center px-4 leading-[1.6]">
+          <p className="text-base text-primary-800 dark:text-primary-300 text-center px-4 leading-[1.6]">
             Generando tu prueba de {selectedTopic}...
           </p>
         </div>
@@ -268,17 +268,17 @@ export default function EvaluacionPage() {
         <div className="flex flex-col gap-5 flex-1 px-1">
           {/* Progress indicator */}
           <div className="flex items-center justify-between" aria-live="polite">
-            <span className="text-base font-medium text-gray-600">
+            <span className="text-base font-medium text-gray-600 dark:text-gray-400">
               Pregunta {currentIndex + 1} de {questions.length}
             </span>
-            <span className="text-base text-gray-500">
+            <span className="text-base text-gray-500 dark:text-gray-400">
               {answers.filter((a) => a.isCorrect).length} correcta{answers.filter((a) => a.isCorrect).length !== 1 ? 's' : ''}
             </span>
           </div>
 
           {/* Progress bar */}
           <div
-            className="w-full h-2 bg-gray-100 rounded-full overflow-hidden"
+            className="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden"
             role="progressbar"
             aria-valuenow={currentIndex + 1}
             aria-valuemin={1}
@@ -286,13 +286,13 @@ export default function EvaluacionPage() {
             aria-label={`Progreso: pregunta ${currentIndex + 1} de ${questions.length}`}
           >
             <div
-              className="h-full bg-primary-500 rounded-full transition-all duration-300"
+              className="h-full bg-primary-500 dark:bg-primary-400 rounded-full transition-all duration-300"
               style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
             />
           </div>
 
           {/* Question text */}
-          <p className="text-base font-medium text-gray-800 leading-[1.6]">
+          <p className="text-base font-medium text-gray-800 dark:text-gray-200 leading-[1.6]">
             {questions[currentIndex].pregunta}
           </p>
 
@@ -303,18 +303,18 @@ export default function EvaluacionPage() {
             aria-label="Opciones de respuesta"
           >
             {questions[currentIndex].opciones.map((opcion, index) => {
-              let optionStyles = 'bg-white border-gray-200 text-gray-800 hover:bg-gray-50';
+              let optionStyles = 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700';
 
               if (showFeedback) {
                 if (index === questions[currentIndex].respuesta_correcta) {
-                  optionStyles = 'bg-green-50 border-green-200 text-green-800';
+                  optionStyles = 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300';
                 } else if (index === selectedOption && selectedOption !== questions[currentIndex].respuesta_correcta) {
-                  optionStyles = 'bg-red-50 border-red-200 text-red-800';
+                  optionStyles = 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300';
                 } else {
-                  optionStyles = 'bg-white border-gray-100 text-gray-500';
+                  optionStyles = 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-500';
                 }
               } else if (index === selectedOption) {
-                optionStyles = 'bg-primary-50 border-primary-200 text-primary-800';
+                optionStyles = 'bg-primary-50 dark:bg-primary-900/40 border-primary-200 dark:border-primary-700 text-primary-800 dark:text-primary-300';
               }
 
               return (
@@ -341,7 +341,7 @@ export default function EvaluacionPage() {
             <button
               onClick={handleConfirmAnswer}
               disabled={selectedOption === null}
-              className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-accent-600 hover:bg-accent-700 text-white mt-1"
+              className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed bg-accent-600 hover:bg-accent-700 text-white mt-1"
               aria-label="Confirmar respuesta seleccionada"
             >
               Confirmar respuesta
@@ -354,8 +354,8 @@ export default function EvaluacionPage() {
               <div
                 className={`px-4 py-4 text-base rounded-xl border mt-1 ${
                   selectedOption === questions[currentIndex].respuesta_correcta
-                    ? 'bg-green-50 border-green-200 text-green-800'
-                    : 'bg-amber-50 border-amber-200 text-amber-800'
+                    ? 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300'
+                    : 'bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
                 }`}
                 role="alert"
               >
@@ -371,7 +371,7 @@ export default function EvaluacionPage() {
               <button
                 onClick={handleExplainDifferently}
                 disabled={altLoading}
-                className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 bg-accent-50 hover:bg-accent-100 border border-accent-200 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
+                className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 dark:text-accent-300 bg-accent-50 dark:bg-gray-800 hover:bg-accent-100 dark:hover:bg-gray-700 border border-accent-200 dark:border-gray-600 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
                 aria-label="Explícamelo de otra forma"
               >
                 {altLoading ? (
@@ -387,11 +387,11 @@ export default function EvaluacionPage() {
               {/* Explicación alternativa */}
               {altExplanation && (
                 <div
-                  className="px-4 py-4 text-base rounded-xl border bg-accent-50 border-accent-200 text-gray-900"
+                  className="px-4 py-4 text-base rounded-xl border bg-accent-50 dark:bg-gray-800 border-accent-200 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                   role="region"
                   aria-label="Explicación alternativa"
                 >
-                  <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
+                  <p className="font-medium mb-2 text-accent-900 dark:text-accent-300">Otra forma de verlo:</p>
                   <p className="leading-[1.6] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: formatMarkdown(altExplanation) }} />
                 </div>
               )}
@@ -419,16 +419,16 @@ export default function EvaluacionPage() {
       {phase === 'summary' && (
         <div className="flex flex-col gap-5 flex-1 px-1">
           {/* Score card */}
-          <div className="flex flex-col items-center gap-3 px-4 py-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
-            <p className="text-base text-gray-600">Tu resultado</p>
-            <p className="text-4xl font-bold text-primary-700" aria-label={`Puntaje: ${score} de ${questions.length}`}>
+          <div className="flex flex-col items-center gap-3 px-4 py-6 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm">
+            <p className="text-base text-gray-600 dark:text-gray-400">Tu resultado</p>
+            <p className="text-4xl font-bold text-primary-700 dark:text-primary-300" aria-label={`Puntaje: ${score} de ${questions.length}`}>
               {score}/{questions.length}
             </p>
-            <p className="text-lg font-medium text-gray-700">
+            <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
               {percentage}% de aciertos
             </p>
             {/* Score message */}
-            <p className="text-base text-gray-600 text-center mt-1">
+            <p className="text-base text-gray-600 dark:text-gray-400 text-center mt-1">
               {percentage >= 80
                 ? '¡Excelente! Dominas bien este tema.'
                 : percentage >= 60
@@ -439,7 +439,7 @@ export default function EvaluacionPage() {
 
           {/* Per-question results */}
           <div className="flex flex-col gap-3">
-            <h2 className="text-base font-medium text-gray-700">
+            <h2 className="text-base font-medium text-gray-700 dark:text-gray-300">
               Detalle por pregunta
             </h2>
             {questions.map((q, index) => {
@@ -451,8 +451,8 @@ export default function EvaluacionPage() {
                   key={index}
                   className={`px-4 py-3 text-base rounded-xl border ${
                     isCorrect
-                      ? 'bg-green-50 border-green-100'
-                      : 'bg-red-50 border-red-100'
+                      ? 'bg-green-50 dark:bg-green-900/30 border-green-100 dark:border-green-800'
+                      : 'bg-red-50 dark:bg-red-900/30 border-red-100 dark:border-red-800'
                   }`}
                   aria-label={`Pregunta ${index + 1}: ${isCorrect ? 'correcta' : 'incorrecta'}`}
                 >
@@ -460,14 +460,14 @@ export default function EvaluacionPage() {
                     <span
                       className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-base font-medium ${
                         isCorrect
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                          ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'
+                          : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300'
                       }`}
                       aria-hidden="true"
                     >
                       {isCorrect ? '✓' : '✗'}
                     </span>
-                    <p className="text-base text-gray-700 leading-[1.5] line-clamp-2">
+                    <p className="text-base text-gray-700 dark:text-gray-300 leading-[1.5] line-clamp-2">
                       {q.pregunta}
                     </p>
                   </div>
@@ -487,7 +487,7 @@ export default function EvaluacionPage() {
             </button>
             <button
               onClick={() => router.push(`/chat?tema=${encodeURIComponent(selectedTopic)}`)}
-              className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+              className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               aria-label={`Repasar ${selectedTopic} con el tutor en el chat`}
             >
               Repasar con el tutor

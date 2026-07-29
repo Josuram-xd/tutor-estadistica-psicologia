@@ -4,15 +4,7 @@ import { formatMarkdown } from '@/lib/formatMarkdown';
 
 /**
  * ChatBubble — burbujas de chat diferenciadas por rol.
- * - Usuario: alineada a la derecha, color primary suave
- * - Tutor: alineada a la izquierda, color accent suave
- *
  * Soporta markdown básico: **negritas**, *cursivas*, `código`
- *
- * Props:
- *   role: 'user' | 'assistant'
- *   content: string
- *   onExplainDifferently: function (solo para mensajes del tutor)
  */
 export default function ChatBubble({ role, content, onExplainDifferently }) {
   const isUser = role === 'user';
@@ -29,8 +21,8 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
             text-base leading-relaxed
             whitespace-pre-wrap break-words
             ${isUser
-              ? 'bg-primary-100 text-primary-900 rounded-3xl rounded-br-xl'
-              : 'bg-accent-50 text-gray-900 rounded-3xl rounded-bl-xl border border-accent-100'
+              ? 'bg-primary-100 dark:bg-primary-900/50 text-primary-900 dark:text-primary-100 rounded-3xl rounded-br-xl'
+              : 'bg-accent-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-3xl rounded-bl-xl border border-accent-100 dark:border-gray-700'
             }
           `}
           dangerouslySetInnerHTML={{ __html: formatMarkdown(content) }}
@@ -42,9 +34,9 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
             onClick={onExplainDifferently}
             className="
               mt-2 self-start
-              text-base text-accent-900
-              bg-accent-50 hover:bg-accent-100
-              border border-accent-200
+              text-base text-accent-900 dark:text-accent-300
+              bg-accent-50 dark:bg-gray-800 hover:bg-accent-100 dark:hover:bg-gray-700
+              border border-accent-200 dark:border-gray-600
               rounded-2xl px-4 py-2.5
               transition-colors duration-200
               min-h-touch
@@ -58,5 +50,3 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
     </div>
   );
 }
-
-

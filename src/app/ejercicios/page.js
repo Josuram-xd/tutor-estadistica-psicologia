@@ -106,7 +106,7 @@ export default function EjerciciosPage() {
   return (
     <div className="flex flex-col h-full w-full max-w-lg mx-auto px-3 sm:px-4 py-4 gap-5">
       {/* Header */}
-      <h1 className="text-2xl font-semibold text-primary-700 text-center">
+      <h1 className="text-2xl font-semibold text-primary-700 dark:text-primary-300 text-center">
         Ejercicios
       </h1>
 
@@ -114,7 +114,7 @@ export default function EjerciciosPage() {
       <div className="flex flex-col gap-2 px-1">
         <label
           htmlFor="topic-select"
-          className="text-base font-medium text-gray-700"
+          className="text-base font-medium text-gray-700 dark:text-gray-300"
         >
           Selecciona un tema
         </label>
@@ -122,7 +122,7 @@ export default function EjerciciosPage() {
           id="topic-select"
           value={selectedTopic}
           onChange={(e) => setSelectedTopic(e.target.value)}
-          className="w-full min-h-touch px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
+          className="w-full min-h-touch px-4 py-3 text-base bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl shadow-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-500 focus:border-primary-600 appearance-none cursor-pointer"
           aria-label="Seleccionar tema de estadística"
         >
           <option value="" disabled>
@@ -141,7 +141,7 @@ export default function EjerciciosPage() {
         <button
           onClick={handleGenerateExercise}
           disabled={!selectedTopic || loading}
-          className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
+          className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
           aria-label="Generar ejercicio del tema seleccionado"
           aria-busy={loading}
         >
@@ -160,7 +160,7 @@ export default function EjerciciosPage() {
       {error && (
         <div
           role="alert"
-          className="mx-1 px-4 py-3 text-base bg-red-50 border border-red-200 text-red-700 rounded-2xl"
+          className="mx-1 px-4 py-3 text-base bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-2xl"
         >
           {error}
         </div>
@@ -176,8 +176,8 @@ export default function EjerciciosPage() {
           />
         ) : (
           !loading && (
-            <div className="flex items-center justify-center h-full min-h-[200px] mx-3 sm:mx-4 rounded-2xl border border-dashed border-gray-200 bg-gray-50">
-              <p className="text-base text-gray-500 text-center px-4 leading-[1.6]">
+            <div className="flex items-center justify-center h-full min-h-[200px] mx-3 sm:mx-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+              <p className="text-base text-gray-500 dark:text-gray-400 text-center px-4 leading-[1.6]">
                 Selecciona un tema y genera un ejercicio para comenzar
               </p>
             </div>
@@ -186,9 +186,9 @@ export default function EjerciciosPage() {
 
         {/* Loading placeholder while generating */}
         {loading && (
-          <div className="flex flex-col items-center justify-center h-full min-h-[200px] mx-3 sm:mx-4 rounded-2xl border border-dashed border-primary-200 bg-primary-50 gap-4">
+          <div className="flex flex-col items-center justify-center h-full min-h-[200px] mx-3 sm:mx-4 rounded-2xl border border-dashed border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-900/30 gap-4">
             <LoadingSpinner size="lg" />
-            <p className="text-base text-primary-800 text-center px-4 leading-[1.6]">
+            <p className="text-base text-primary-800 dark:text-primary-300 text-center px-4 leading-[1.6]">
               Creando tu ejercicio de {selectedTopic}...
             </p>
           </div>
@@ -296,23 +296,23 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
   return (
     <div className="flex flex-col gap-5">
       {/* Pregunta */}
-      <p className="text-base font-medium text-gray-800 leading-[1.6]">
+      <p className="text-base font-medium text-gray-800 dark:text-gray-200 leading-[1.6]">
         {pregunta}
       </p>
 
       {/* Opciones */}
       <div className="flex flex-col gap-3" role="radiogroup" aria-label="Opciones de respuesta">
         {opciones.map((opcion, index) => {
-          let optionStyles = 'bg-white border-gray-200 text-gray-800';
+          let optionStyles = 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200';
 
           if (showFeedback) {
             if (index === respuestaCorrecta) {
-              optionStyles = 'bg-green-50 border-green-200 text-green-800';
+              optionStyles = 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300';
             } else if (index === selectedOption && !isCorrect) {
-              optionStyles = 'bg-red-50 border-red-200 text-red-800';
+              optionStyles = 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300';
             }
           } else if (index === selectedOption) {
-            optionStyles = 'bg-primary-50 border-primary-200 text-primary-800';
+            optionStyles = 'bg-primary-50 dark:bg-primary-900/40 border-primary-200 dark:border-primary-700 text-primary-800 dark:text-primary-300';
           }
 
           return (
@@ -338,7 +338,7 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
         <button
           onClick={handleConfirm}
           disabled={selectedOption === null}
-          className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-accent-600 hover:bg-accent-700 text-white mt-1"
+          className="w-full min-h-[48px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed bg-accent-600 hover:bg-accent-700 text-white mt-1"
         >
           Confirmar respuesta
         </button>
@@ -350,8 +350,8 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
           <div
             className={`px-4 py-4 text-base rounded-xl border mt-1 ${
               isCorrect
-                ? 'bg-green-50 border-green-200 text-green-800'
-                : 'bg-amber-50 border-amber-200 text-amber-800'
+                ? 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300'
+                : 'bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
             }`}
             role="alert"
           >
@@ -365,7 +365,7 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
           <button
             onClick={handleExplainDifferently}
             disabled={altLoading}
-            className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 bg-accent-50 hover:bg-accent-100 border border-accent-200 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
+            className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 dark:text-accent-300 bg-accent-50 dark:bg-gray-800 hover:bg-accent-100 dark:hover:bg-gray-700 border border-accent-200 dark:border-gray-600 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
             aria-label="Explícamelo de otra forma"
           >
             {altLoading ? (
@@ -381,11 +381,11 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
           {/* Explicación alternativa */}
           {altExplanation && (
             <div
-              className="px-4 py-4 text-base rounded-xl border bg-accent-50 border-accent-200 text-gray-900"
+              className="px-4 py-4 text-base rounded-xl border bg-accent-50 dark:bg-gray-800 border-accent-200 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               role="region"
               aria-label="Explicación alternativa"
             >
-              <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
+              <p className="font-medium mb-2 text-accent-900 dark:text-accent-300">Otra forma de verlo:</p>
               <p className="leading-[1.6] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: formatMarkdown(altExplanation) }} />
             </div>
           )}

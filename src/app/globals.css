@@ -7,6 +7,11 @@
   --foreground: #212529;
 }
 
+.dark {
+  --background: #1a1b1e;
+  --foreground: #e9ecef;
+}
+
 /* Base font-size 16px en html — accesibilidad para discalculia (NFR-2) */
 html {
   font-size: 16px;

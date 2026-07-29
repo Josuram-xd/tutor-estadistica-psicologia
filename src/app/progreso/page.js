@@ -116,7 +116,7 @@ export default function ProgresoPage() {
   if (error) {
     return (
       <div className="flex flex-col h-[calc(100vh-5rem)] items-center justify-center p-6">
-        <p className="text-base text-red-600 text-center" role="alert">
+        <p className="text-base text-red-600 dark:text-red-400 text-center" role="alert">
           {error}
         </p>
         <button
@@ -138,10 +138,10 @@ export default function ProgresoPage() {
     <div className="flex flex-col h-[calc(100vh-5rem)] max-w-mobile mx-auto animate-page-fade-in">
       {/* Header */}
       <header className="px-4 pt-6 pb-4">
-        <h1 className="text-2xl font-semibold text-primary-700">
+        <h1 className="text-2xl font-semibold text-primary-700 dark:text-primary-300">
           Mi Progreso
         </h1>
-        <p className="text-base text-gray-600 mt-1">
+        <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
           Tu avance en cada tema de estadística
         </p>
       </header>
@@ -160,7 +160,7 @@ export default function ProgresoPage() {
               <article
                 key={topic}
                 role="listitem"
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5"
+                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-5"
               >
                 {/* Topic name + level badge */}
                 <div className="flex items-center justify-between gap-3 mb-3">
@@ -176,7 +176,7 @@ export default function ProgresoPage() {
                       {levelInfo.label}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-base text-gray-400 bg-gray-50">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-base text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700">
                       Sin empezar
                     </span>
                   )}
@@ -185,20 +185,20 @@ export default function ProgresoPage() {
                 {/* Statistics */}
                 <div className="flex flex-wrap gap-x-6 gap-y-2">
                   <div className="flex flex-col">
-                    <span className="text-base text-gray-500">Ejercicios</span>
+                    <span className="text-base text-gray-500 dark:text-gray-400">Ejercicios</span>
                     <span className="text-lg font-medium text-foreground">
                       {exercisesCompleted}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-base text-gray-500">Correctas</span>
+                    <span className="text-base text-gray-500 dark:text-gray-400">Correctas</span>
                     <span className="text-lg font-medium text-foreground">
                       {correctAnswers}
                     </span>
                   </div>
                   {accuracy !== null && (
                     <div className="flex flex-col">
-                      <span className="text-base text-gray-500">Precisión</span>
+                      <span className="text-base text-gray-500 dark:text-gray-400">Precisión</span>
                       <span className="text-lg font-medium text-foreground">
                         {accuracy}%
                       </span>

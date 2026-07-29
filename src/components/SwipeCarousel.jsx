@@ -3,30 +3,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { formatMarkdown } from '@/lib/formatMarkdown';
 
-/**
- * SwipeCarousel — Carrusel CSS scroll-snap para ejercicios paso a paso.
- *
- * Props:
- * - slides: Array de objetos { id, type, content }
- *   - type puede ser: 'contexto' | 'paso' | 'interpretacion' | 'feedback'
- *   - content: ReactNode o string con el contenido del slide
- * - onSlideChange: (index) => void — callback cuando cambia el slide activo
- * - className: string — clases CSS adicionales para el contenedor
- *
- * Funcionalidades:
- * - Navegación nativa por swipe (CSS scroll-snap)
- * - Indicadores de puntos (dots) con posición actual
- * - Botón flotante "Saltar a interpretación" (FR-6)
- * - Mobile-first, accesible para discalculia (NFR-2)
- */
 export default function SwipeCarousel({ slides = [], onSlideChange, className = '' }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
 
-  // Encuentra el índice del slide de interpretación
   const interpretationIndex = slides.findIndex((s) => s.type === 'interpretacion');
 
-  // Maneja el scroll y detecta el slide activo
   const handleScroll = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -41,7 +23,6 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
     }
   }, [activeIndex, slides.length, onSlideChange]);
 
-  // Scrollea programáticamente a un slide específico
   const scrollToSlide = useCallback((index) => {
     const container = containerRef.current;
     if (!container) return;
@@ -53,14 +34,12 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
     });
   }, []);
 
-  // Saltar a interpretación (FR-6)
   const handleSkipToInterpretation = useCallback(() => {
     if (interpretationIndex >= 0) {
       scrollToSlide(interpretationIndex);
     }
   }, [interpretationIndex, scrollToSlide]);
 
-  // Listener de scroll con throttle simple
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -82,13 +61,10 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
 
   if (!slides.length) return null;
 
-  // Mostrar botón "Saltar a interpretación" solo si hay slide de interpretación
-  // y el usuario aún no ha llegado a él
   const showSkipButton = interpretationIndex > 0 && activeIndex < interpretationIndex;
 
   return (
     <div className={`relative flex flex-col w-full ${className}`} role="region" aria-label="Ejercicio paso a paso" aria-roledescription="carrusel">
-      {/* Contenedor de slides con scroll-snap */}
       <div
         ref={containerRef}
         className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide w-full"
@@ -104,14 +80,12 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
             aria-label={`Slide ${index + 1} de ${slides.length}: ${getLabelForType(slide.type)}`}
             aria-hidden={index !== activeIndex}
           >
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 h-full flex flex-col gap-4">
-              {/* Etiqueta del tipo de slide */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 h-full flex flex-col gap-4">
               <span className={`text-base font-medium px-3 py-1.5 rounded-full w-fit ${getTagStyles(slide.type)}`}>
                 {getLabelForType(slide.type)}
               </span>
 
-              {/* Contenido del slide */}
-              <div className="flex-1 text-base leading-[1.6] text-gray-800 break-words whitespace-pre-wrap">
+              <div className="flex-1 text-base leading-[1.6] text-gray-800 dark:text-gray-200 break-words whitespace-pre-wrap">
                 {typeof slide.content === 'string' ? (
                   <span dangerouslySetInnerHTML={{ __html: formatMarkdown(slide.content) }} />
                 ) : (
@@ -123,7 +97,7 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
         ))}
       </div>
 
-      {/* Indicadores de puntos */}
+      {/* Dots */}
       <div className="flex justify-center items-center gap-1 py-3" role="tablist" aria-label="Indicadores de slide">
         {slides.map((_, index) => (
           <button
@@ -137,15 +111,15 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
             <span
               className={`block rounded-full transition-all duration-200 ${
                 index === activeIndex
-                  ? 'w-6 h-3 bg-primary-600'
-                  : 'w-3 h-3 bg-gray-300'
+                  ? 'w-6 h-3 bg-primary-600 dark:bg-primary-400'
+                  : 'w-3 h-3 bg-gray-300 dark:bg-gray-600'
               }`}
             />
           </button>
         ))}
       </div>
 
-      {/* Botón flotante: Saltar a interpretación (FR-6) */}
+      {/* Skip button */}
       {showSkipButton && (
         <button
           onClick={handleSkipToInterpretation}
@@ -159,39 +133,22 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
   );
 }
 
-/**
- * Devuelve la etiqueta legible para el tipo de slide.
- */
 function getLabelForType(type) {
   switch (type) {
-    case 'contexto':
-      return 'Contexto';
-    case 'paso':
-      return 'Paso de cálculo';
-    case 'interpretacion':
-      return 'Interpretación';
-    case 'feedback':
-      return 'Feedback';
-    default:
-      return 'Slide';
+    case 'contexto': return 'Contexto';
+    case 'paso': return 'Paso de cálculo';
+    case 'interpretacion': return 'Interpretación';
+    case 'feedback': return 'Feedback';
+    default: return 'Slide';
   }
 }
 
-/**
- * Devuelve las clases de estilo para la etiqueta según el tipo.
- * Colores suaves y consistentes con la paleta de la app (NFR-2).
- */
 function getTagStyles(type) {
   switch (type) {
-    case 'contexto':
-      return 'bg-primary-50 text-primary-700';
-    case 'paso':
-      return 'bg-gray-100 text-gray-700';
-    case 'interpretacion':
-      return 'bg-accent-50 text-accent-900';
-    case 'feedback':
-      return 'bg-accent-50 text-accent-800';
-    default:
-      return 'bg-gray-100 text-gray-600';
+    case 'contexto': return 'bg-primary-50 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300';
+    case 'paso': return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300';
+    case 'interpretacion': return 'bg-accent-50 dark:bg-accent-900/40 text-accent-900 dark:text-accent-300';
+    case 'feedback': return 'bg-accent-50 dark:bg-accent-900/40 text-accent-800 dark:text-accent-300';
+    default: return 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400';
   }
 }

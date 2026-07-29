@@ -291,9 +291,9 @@ function ChatContent() {
             <span className="
               inline-flex items-center gap-1.5
               px-3 py-1.5
-              bg-accent-50 border border-accent-100
+              bg-accent-50 dark:bg-accent-900/30 border border-accent-100 dark:border-accent-800
               rounded-full
-              text-base text-accent-900 font-medium
+              text-base text-accent-900 dark:text-accent-300 font-medium
             ">
               <span aria-hidden="true">📎</span>
               Material cargado
@@ -304,10 +304,10 @@ function ChatContent() {
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
             <span className="text-4xl mb-4" aria-hidden="true">🎓</span>
-            <h2 className="text-xl font-semibold text-primary-700 mb-2">
+            <h2 className="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-2">
               ¡Hola! Soy tu tutor de estadística
             </h2>
-            <p className="text-base text-gray-600 leading-relaxed">
+            <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
               Pregúntame cualquier cosa sobre estadística inferencial. 
               Te explico con calma, usando ejemplos de psicología y sin pedirte cálculos mentales.
             </p>
@@ -331,11 +331,11 @@ function ChatContent() {
         {/* Indicador de escritura (typing) */}
         {isLoading && (
           <div className="flex justify-start mb-4">
-            <div className="bg-accent-50 border border-accent-100 rounded-3xl rounded-bl-xl px-5 py-4">
+            <div className="bg-accent-50 dark:bg-gray-800 border border-accent-100 dark:border-gray-700 rounded-3xl rounded-bl-xl px-5 py-4">
               <div className="flex items-center gap-2" aria-label="El tutor está escribiendo">
-                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse" />
-                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse [animation-delay:400ms]" />
-                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse [animation-delay:800ms]" />
+                <span className="w-2.5 h-2.5 bg-accent-400 dark:bg-accent-500 rounded-full animate-gentle-pulse" />
+                <span className="w-2.5 h-2.5 bg-accent-400 dark:bg-accent-500 rounded-full animate-gentle-pulse [animation-delay:400ms]" />
+                <span className="w-2.5 h-2.5 bg-accent-400 dark:bg-accent-500 rounded-full animate-gentle-pulse [animation-delay:800ms]" />
               </div>
             </div>
           </div>
@@ -346,14 +346,14 @@ function ChatContent() {
       </div>
 
       {/* Input fijo en la parte inferior, above navigation bar */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 bg-white border-t border-gray-200 pb-safe-bottom">
+      <div className="fixed bottom-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 pb-safe-bottom">
         {/* Upload status indicator */}
         {uploadStatus && (
           <div className={`
             px-3 py-1.5 text-center text-base font-medium
-            ${uploadStatus === 'uploading' ? 'bg-primary-50 text-primary-700' : ''}
-            ${uploadStatus === 'success' ? 'bg-accent-50 text-accent-800' : ''}
-            ${uploadStatus === 'error' ? 'bg-red-50 text-red-700' : ''}
+            ${uploadStatus === 'uploading' ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300' : ''}
+            ${uploadStatus === 'success' ? 'bg-accent-50 dark:bg-accent-900/30 text-accent-800 dark:text-accent-300' : ''}
+            ${uploadStatus === 'error' ? 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300' : ''}
           `}>
             {uploadStatus === 'uploading' && '📎 Subiendo material...'}
             {uploadStatus === 'success' && '✓ Material cargado correctamente'}
@@ -374,8 +374,8 @@ function ChatContent() {
               w-11 h-11
               min-h-touch min-w-touch
               rounded-full
-              bg-gray-100 hover:bg-gray-200
-              text-gray-600
+              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600
+              text-gray-600 dark:text-gray-300
               transition-colors duration-200
               shrink-0
             "
@@ -408,12 +408,13 @@ function ChatContent() {
               flex-1
               resize-none
               rounded-2xl
-              border border-gray-300
-              bg-gray-50
+              border border-gray-300 dark:border-gray-600
+              bg-gray-50 dark:bg-gray-800
               px-4 py-3
               text-base
-              placeholder:text-gray-500
-              focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400
+              text-gray-900 dark:text-gray-100
+              placeholder:text-gray-500 dark:placeholder:text-gray-500
+              focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-700 focus:border-primary-400 dark:focus:border-primary-500
               transition-colors
               max-h-32
               min-h-touch
@@ -431,7 +432,7 @@ function ChatContent() {
               min-h-touch min-w-touch
               rounded-full
               bg-primary-600 hover:bg-primary-700
-              disabled:bg-gray-300 disabled:cursor-not-allowed
+              disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed
               text-white
               transition-colors duration-200
               shrink-0

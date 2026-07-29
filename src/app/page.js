@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import DarkModeToggle from '@/components/DarkModeToggle';
 
 export default function Home() {
   const router = useRouter();
@@ -74,34 +75,39 @@ export default function Home() {
   if (checkingAuth) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <div className="text-primary-700 text-lg">Cargando...</div>
+        <div className="text-primary-700 dark:text-primary-300 text-lg">Cargando...</div>
       </main>
     );
   }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-5 py-8">
+      {/* Dark mode toggle en la esquina */}
+      <div className="absolute top-4 right-4">
+        <DarkModeToggle />
+      </div>
+
       <div className="w-full max-w-mobile space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-primary-800">
+          <h1 className="text-2xl font-bold text-primary-800 dark:text-primary-300">
             Tutor de Estadística
           </h1>
-          <p className="text-base text-gray-600">
+          <p className="text-base text-gray-600 dark:text-gray-400">
             Tu tutor personalizado de estadística inferencial
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex rounded-2xl bg-primary-50 p-1" role="tablist" aria-label="Tipo de acceso">
+        <div className="flex rounded-2xl bg-primary-50 dark:bg-gray-800 p-1" role="tablist" aria-label="Tipo de acceso">
           <button
             role="tab"
             aria-selected={activeTab === 'login'}
             aria-controls="auth-form"
             className={`flex-1 min-h-touch rounded-xl py-3 text-base font-medium transition-colors duration-200 ${
               activeTab === 'login'
-                ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-primary-800 hover:text-primary-900'
+                ? 'bg-white dark:bg-gray-700 text-primary-700 dark:text-primary-300 shadow-sm'
+                : 'text-primary-800 dark:text-gray-400 hover:text-primary-900 dark:hover:text-gray-200'
             }`}
             onClick={() => {
               setActiveTab('login');
@@ -116,8 +122,8 @@ export default function Home() {
             aria-controls="auth-form"
             className={`flex-1 min-h-touch rounded-xl py-3 text-base font-medium transition-colors duration-200 ${
               activeTab === 'register'
-                ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-primary-800 hover:text-primary-900'
+                ? 'bg-white dark:bg-gray-700 text-primary-700 dark:text-primary-300 shadow-sm'
+                : 'text-primary-800 dark:text-gray-400 hover:text-primary-900 dark:hover:text-gray-200'
             }`}
             onClick={() => {
               setActiveTab('register');
@@ -140,7 +146,7 @@ export default function Home() {
             <div>
               <label
                 htmlFor="username"
-                className="block text-base font-medium text-gray-700 mb-2"
+                className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Nombre de usuario
               </label>
@@ -151,7 +157,7 @@ export default function Home() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Tu nombre de usuario"
-                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-500 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
+                className="w-full min-h-touch rounded-xl border-2 border-primary-100 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-3 text-base text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-500 focus:border-primary-400 dark:focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100 dark:focus:ring-primary-900 transition-colors duration-200"
                 disabled={loading}
               />
             </div>
@@ -159,7 +165,7 @@ export default function Home() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-base font-medium text-gray-700 mb-2"
+                className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Contraseña
               </label>
@@ -170,7 +176,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Tu contraseña"
-                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-500 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
+                className="w-full min-h-touch rounded-xl border-2 border-primary-100 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-3 text-base text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-500 focus:border-primary-400 dark:focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100 dark:focus:ring-primary-900 transition-colors duration-200"
                 disabled={loading}
               />
             </div>
@@ -181,7 +187,7 @@ export default function Home() {
             <div
               role="alert"
               aria-live="polite"
-              className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-base text-red-700"
+              className="rounded-xl bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 px-4 py-3 text-base text-red-700 dark:text-red-300"
             >
               {error}
             </div>
@@ -191,7 +197,7 @@ export default function Home() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full min-h-touch rounded-xl bg-primary-600 px-4 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
+            className="w-full min-h-touch rounded-xl bg-primary-600 dark:bg-primary-700 px-4 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {loading
               ? 'Cargando...'
