@@ -37,7 +37,7 @@ export default function Navigation() {
                   transition-colors duration-200
                   ${isActive
                     ? 'text-primary-800 bg-primary-100 font-semibold'
-                    : 'text-gray-500 font-medium hover:text-primary-600 hover:bg-gray-50'
+                    : 'text-gray-500 font-medium hover:text-primary-700 hover:bg-gray-50'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
@@ -52,7 +52,7 @@ export default function Navigation() {
                 <span className="text-xl leading-none mb-1" aria-hidden="true">
                   {tab.icon}
                 </span>
-                <span className="text-sm leading-tight">{tab.label}</span>
+                <span className="text-base leading-tight">{tab.label}</span>
               </Link>
             </li>
           );

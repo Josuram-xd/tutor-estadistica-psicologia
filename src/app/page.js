@@ -74,7 +74,7 @@ export default function Home() {
   if (checkingAuth) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <div className="text-primary-600 text-lg">Cargando...</div>
+        <div className="text-primary-700 text-lg">Cargando...</div>
       </main>
     );
   }
@@ -101,7 +101,7 @@ export default function Home() {
             className={`flex-1 min-h-touch rounded-xl py-3 text-base font-medium transition-colors duration-200 ${
               activeTab === 'login'
                 ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-primary-500 hover:text-primary-700'
+                : 'text-primary-800 hover:text-primary-900'
             }`}
             onClick={() => {
               setActiveTab('login');
@@ -117,7 +117,7 @@ export default function Home() {
             className={`flex-1 min-h-touch rounded-xl py-3 text-base font-medium transition-colors duration-200 ${
               activeTab === 'register'
                 ? 'bg-white text-primary-700 shadow-sm'
-                : 'text-primary-500 hover:text-primary-700'
+                : 'text-primary-800 hover:text-primary-900'
             }`}
             onClick={() => {
               setActiveTab('register');
@@ -151,7 +151,7 @@ export default function Home() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Tu nombre de usuario"
-                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
+                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-500 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
                 disabled={loading}
               />
             </div>
@@ -170,7 +170,7 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Tu contraseña"
-                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
+                className="w-full min-h-touch rounded-xl border-2 border-primary-100 bg-white px-4 py-3 text-base text-gray-800 placeholder-gray-500 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-100 transition-colors duration-200"
                 disabled={loading}
               />
             </div>

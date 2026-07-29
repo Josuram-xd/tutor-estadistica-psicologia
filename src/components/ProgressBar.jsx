@@ -17,26 +17,27 @@ const LEVEL_THRESHOLDS = {
   avanzado: { exercises: 10, accuracy: 80 },
 };
 
-// Colores de la barra según nivel (alto contraste ≥4.5:1)
+// Colores de la barra según nivel — suaves y consistentes (NFR-2: bajo ruido visual)
+// Usa colores con saturación moderada para no sobrecargar visualmente
 const BAR_COLORS = {
   no_visto: {
-    bg: 'bg-gray-200',
+    bg: 'bg-gray-100',
     fill: 'bg-gray-400',
     text: 'text-gray-700',
   },
   basico: {
-    bg: 'bg-green-100',
-    fill: 'bg-green-500',
-    text: 'text-green-800',
+    bg: 'bg-accent-50',
+    fill: 'bg-accent-400',
+    text: 'text-accent-900',
   },
   intermedio: {
-    bg: 'bg-blue-100',
-    fill: 'bg-blue-500',
-    text: 'text-blue-800',
+    bg: 'bg-primary-50',
+    fill: 'bg-primary-400',
+    text: 'text-primary-800',
   },
   avanzado: {
-    bg: 'bg-amber-100',
-    fill: 'bg-amber-500',
+    bg: 'bg-amber-50',
+    fill: 'bg-amber-400',
     text: 'text-amber-800',
   },
 };
@@ -117,7 +118,7 @@ export default function ProgressBar({
 
       {/* Texto de porcentaje */}
       <p
-        className={`text-sm mt-1 font-medium ${colors.text}`}
+        className={`text-base mt-1 font-medium ${colors.text}`}
         aria-hidden="true"
       >
         {progress}% completado

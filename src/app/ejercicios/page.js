@@ -8,7 +8,7 @@ const SwipeCarousel = dynamic(() => import('@/components/SwipeCarousel'), {
   loading: () => (
     <div className="flex items-center justify-center h-full min-h-[200px]">
       <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-slow-spin" />
         <p className="text-base text-gray-500">Cargando ejercicio...</p>
       </div>
     </div>
@@ -121,7 +121,7 @@ export default function EjerciciosPage() {
           id="topic-select"
           value={selectedTopic}
           onChange={(e) => setSelectedTopic(e.target.value)}
-          className="w-full min-h-[44px] px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
+          className="w-full min-h-touch px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
           aria-label="Seleccionar tema de estadística"
         >
           <option value="" disabled>
@@ -140,7 +140,7 @@ export default function EjerciciosPage() {
         <button
           onClick={handleGenerateExercise}
           disabled={!selectedTopic || loading}
-          className="w-full min-h-[44px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
+          className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
           aria-label="Generar ejercicio del tema seleccionado"
           aria-busy={loading}
         >
@@ -187,7 +187,7 @@ export default function EjerciciosPage() {
         {loading && (
           <div className="flex flex-col items-center justify-center h-full min-h-[200px] mx-3 sm:mx-4 rounded-2xl border border-dashed border-primary-200 bg-primary-50 gap-4">
             <LoadingSpinner size="lg" />
-            <p className="text-base text-primary-600 text-center px-4 leading-[1.6]">
+            <p className="text-base text-primary-800 text-center px-4 leading-[1.6]">
               Creando tu ejercicio de {selectedTopic}...
             </p>
           </div>
@@ -206,7 +206,7 @@ function LoadingSpinner({ size = 'sm' }) {
 
   return (
     <svg
-      className={`animate-spin ${sizeClasses} text-current`}
+      className={`animate-slow-spin ${sizeClasses} text-current`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -236,6 +236,8 @@ function LoadingSpinner({ size = 'sm' }) {
 function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, topic }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [altExplanation, setAltExplanation] = useState('');
+  const [altLoading, setAltLoading] = useState(false);
 
   function handleOptionSelect(index) {
     if (showFeedback) return; // No cambiar después de responder
@@ -258,6 +260,36 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
     }
   }
 
+  async function handleExplainDifferently() {
+    if (altLoading) return;
+    setAltLoading(true);
+    setAltExplanation('');
+
+    try {
+      const userId = localStorage.getItem('userId') || localStorage.getItem('user_id') || '';
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Explícamelo de otra forma, usa una analogía diferente o un ejemplo más simple. Esta es la explicación original de un ejercicio de ${topic}: "${feedback}"`,
+          userId,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.response) {
+        setAltExplanation(data.response);
+      } else {
+        setAltExplanation('No se pudo obtener una explicación alternativa. Intenta de nuevo.');
+      }
+    } catch (err) {
+      console.error('Error obteniendo explicación alternativa:', err);
+      setAltExplanation('Error de conexión. Revisa tu conexión e intenta de nuevo.');
+    } finally {
+      setAltLoading(false);
+    }
+  }
+
   const isCorrect = selectedOption === respuestaCorrecta;
 
   return (
@@ -274,12 +306,12 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
 
           if (showFeedback) {
             if (index === respuestaCorrecta) {
-              optionStyles = 'bg-green-50 border-green-400 text-green-800';
+              optionStyles = 'bg-green-50 border-green-200 text-green-800';
             } else if (index === selectedOption && !isCorrect) {
-              optionStyles = 'bg-red-50 border-red-300 text-red-800';
+              optionStyles = 'bg-red-50 border-red-200 text-red-800';
             }
           } else if (index === selectedOption) {
-            optionStyles = 'bg-primary-50 border-primary-400 text-primary-800';
+            optionStyles = 'bg-primary-50 border-primary-200 text-primary-800';
           }
 
           return (
@@ -313,19 +345,50 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
 
       {/* Feedback */}
       {showFeedback && (
-        <div
-          className={`px-4 py-4 text-base rounded-xl border mt-1 ${
-            isCorrect
-              ? 'bg-green-50 border-green-200 text-green-800'
-              : 'bg-amber-50 border-amber-200 text-amber-800'
-          }`}
-          role="alert"
-        >
-          <p className="font-medium mb-2">
-            {isCorrect ? '¡Correcto!' : 'No exactamente'}
-          </p>
-          <p className="leading-[1.6]">{feedback}</p>
-        </div>
+        <>
+          <div
+            className={`px-4 py-4 text-base rounded-xl border mt-1 ${
+              isCorrect
+                ? 'bg-green-50 border-green-200 text-green-800'
+                : 'bg-amber-50 border-amber-200 text-amber-800'
+            }`}
+            role="alert"
+          >
+            <p className="font-medium mb-2">
+              {isCorrect ? '¡Correcto!' : 'No exactamente'}
+            </p>
+            <p className="leading-[1.6]">{feedback}</p>
+          </div>
+
+          {/* Botón Explícamelo de otra forma */}
+          <button
+            onClick={handleExplainDifferently}
+            disabled={altLoading}
+            className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 bg-accent-50 hover:bg-accent-100 border border-accent-200 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
+            aria-label="Explícamelo de otra forma"
+          >
+            {altLoading ? (
+              <span className="flex items-center gap-2">
+                <LoadingSpinner />
+                Generando...
+              </span>
+            ) : (
+              '🔄 Explícamelo de otra forma'
+            )}
+          </button>
+
+          {/* Explicación alternativa */}
+          {altExplanation && (
+            <div
+              className="px-4 py-4 text-base rounded-xl border bg-accent-50 border-accent-200 text-gray-900"
+              role="region"
+              aria-label="Explicación alternativa"
+            >
+              <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
+              <p className="leading-[1.6] whitespace-pre-wrap">{altExplanation}</p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

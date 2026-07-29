@@ -16,22 +16,22 @@ const TOPICS = [
 const LEVEL_CONFIG = {
   no_visto: {
     label: 'No visto',
-    color: 'bg-gray-200 text-gray-700',
+    color: 'bg-gray-100 text-gray-700',
     order: 0,
   },
   basico: {
     label: 'Básico',
-    color: 'bg-green-100 text-green-800',
+    color: 'bg-accent-50 text-accent-900',
     order: 1,
   },
   intermedio: {
     label: 'Intermedio',
-    color: 'bg-blue-100 text-blue-800',
+    color: 'bg-primary-50 text-primary-800',
     order: 2,
   },
   avanzado: {
     label: 'Avanzado',
-    color: 'bg-amber-100 text-amber-800',
+    color: 'bg-amber-50 text-amber-800',
     order: 3,
   },
 };
@@ -89,7 +89,7 @@ export default function ProgresoPage() {
     return (
       <div className="flex flex-col h-[calc(100vh-5rem)] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-slow-spin" />
           <p className="text-base text-gray-500">Cargando progreso...</p>
         </div>
       </div>
@@ -162,20 +162,20 @@ export default function ProgresoPage() {
                 {/* Statistics */}
                 <div className="flex flex-wrap gap-x-6 gap-y-2">
                   <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">Ejercicios</span>
+                    <span className="text-base text-gray-500">Ejercicios</span>
                     <span className="text-lg font-medium text-foreground">
                       {exercisesCompleted}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">Correctas</span>
+                    <span className="text-base text-gray-500">Correctas</span>
                     <span className="text-lg font-medium text-foreground">
                       {correctAnswers}
                     </span>
                   </div>
                   {accuracy !== null && (
                     <div className="flex flex-col">
-                      <span className="text-sm text-gray-500">Precisión</span>
+                      <span className="text-base text-gray-500">Precisión</span>
                       <span className="text-lg font-medium text-foreground">
                         {accuracy}%
                       </span>

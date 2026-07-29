@@ -197,7 +197,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
             className="
               flex items-center justify-center
               w-11 h-11
-              min-h-[44px] min-w-[44px]
+              min-h-touch min-w-touch
               rounded-full
               bg-gray-100 hover:bg-gray-200
               text-gray-600
@@ -244,7 +244,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               className="
                 flex items-center gap-4
                 w-full
-                min-h-[44px]
+                min-h-touch
                 px-5 py-4
                 bg-primary-50 hover:bg-primary-100
                 border border-primary-200
@@ -257,7 +257,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📄</span>
               <div className="text-left">
                 <span className="block text-base font-medium">PDF</span>
-                <span className="block text-sm text-primary-600">Sube un documento PDF</span>
+                <span className="block text-base text-primary-800">Sube un documento PDF</span>
               </div>
             </button>
 
@@ -270,7 +270,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               className="
                 flex items-center gap-4
                 w-full
-                min-h-[44px]
+                min-h-touch
                 px-5 py-4
                 bg-accent-50 hover:bg-accent-100
                 border border-accent-200
@@ -283,7 +283,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📷</span>
               <div className="text-left">
                 <span className="block text-base font-medium">Foto</span>
-                <span className="block text-sm text-accent-700">Toma una foto o sube una imagen</span>
+                <span className="block text-base text-accent-900">Toma una foto o sube una imagen</span>
               </div>
             </button>
 
@@ -293,7 +293,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               className="
                 flex items-center gap-4
                 w-full
-                min-h-[44px]
+                min-h-touch
                 px-5 py-4
                 bg-gray-50 hover:bg-gray-100
                 border border-gray-200
@@ -306,7 +306,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               <span className="text-2xl" aria-hidden="true">📝</span>
               <div className="text-left">
                 <span className="block text-base font-medium">Texto</span>
-                <span className="block text-sm text-gray-600">Pega texto directamente</span>
+                <span className="block text-base text-gray-600">Pega texto directamente</span>
               </div>
             </button>
           </div>
@@ -321,7 +321,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 self-start
                 flex items-center gap-1
                 text-base text-primary-600
-                min-h-[44px]
+                min-h-touch
                 px-2
                 transition-colors duration-200
                 hover:text-primary-800
@@ -356,7 +356,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
                 bg-gray-50
                 px-4 py-3
                 text-base
-                placeholder:text-gray-400
+                placeholder:text-gray-500
                 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400
                 transition-colors
                 resize-none
@@ -370,7 +370,7 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
               disabled={!textContent.trim()}
               className="
                 w-full
-                min-h-[44px]
+                min-h-touch
                 px-5 py-3
                 bg-primary-600 hover:bg-primary-700
                 disabled:bg-gray-300 disabled:cursor-not-allowed

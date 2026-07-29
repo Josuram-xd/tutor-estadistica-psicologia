@@ -25,6 +25,8 @@ export default function EvaluacionPage() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [error, setError] = useState('');
+  const [altExplanation, setAltExplanation] = useState('');
+  const [altLoading, setAltLoading] = useState(false);
 
   /**
    * Inicia la evaluación llamando a POST /api/eval
@@ -102,6 +104,8 @@ export default function EvaluacionPage() {
       setCurrentIndex((prev) => prev + 1);
       setSelectedOption(null);
       setShowFeedback(false);
+      setAltExplanation('');
+      setAltLoading(false);
     } else {
       // Última pregunta: transicionar a resumen y enviar progreso consolidado
       setPhase('summary');
@@ -129,6 +133,40 @@ export default function EvaluacionPage() {
   }
 
   /**
+   * Solicita una explicación alternativa del feedback actual vía /api/chat.
+   */
+  async function handleExplainDifferently() {
+    if (altLoading) return;
+    setAltLoading(true);
+    setAltExplanation('');
+
+    try {
+      const userId = localStorage.getItem('userId') || localStorage.getItem('user_id') || '';
+      const currentExplanation = questions[currentIndex]?.explicacion || '';
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Explícamelo de otra forma, usa una analogía diferente o un ejemplo más simple. Esta es la explicación original de una pregunta de evaluación de ${selectedTopic}: "${currentExplanation}"`,
+          userId,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.response) {
+        setAltExplanation(data.response);
+      } else {
+        setAltExplanation('No se pudo obtener una explicación alternativa. Intenta de nuevo.');
+      }
+    } catch (err) {
+      console.error('Error obteniendo explicación alternativa:', err);
+      setAltExplanation('Error de conexión. Revisa tu conexión e intenta de nuevo.');
+    } finally {
+      setAltLoading(false);
+    }
+  }
+
+  /**
    * Reinicia la evaluación para volver a intentar.
    */
   function handleRestart() {
@@ -139,6 +177,8 @@ export default function EvaluacionPage() {
     setSelectedOption(null);
     setShowFeedback(false);
     setError('');
+    setAltExplanation('');
+    setAltLoading(false);
   }
 
   // Calcular puntaje para el resumen
@@ -167,7 +207,7 @@ export default function EvaluacionPage() {
               id="eval-topic-select"
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="w-full min-h-[44px] px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
+              className="w-full min-h-touch px-4 py-3 text-base bg-white border border-gray-200 rounded-2xl shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 appearance-none cursor-pointer"
               aria-label="Seleccionar tema para evaluación"
             >
               <option value="" disabled>
@@ -186,7 +226,7 @@ export default function EvaluacionPage() {
             <button
               onClick={handleStartEval}
               disabled={!selectedTopic}
-              className="w-full min-h-[44px] px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
+              className="w-full min-h-touch px-4 py-3 text-base font-medium rounded-2xl shadow-sm transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center gap-2"
               aria-label="Empezar prueba del tema seleccionado"
             >
               Empezar prueba
@@ -216,7 +256,7 @@ export default function EvaluacionPage() {
       {phase === 'loading' && (
         <div className="flex-1 flex flex-col items-center justify-center min-h-[300px] mx-1 rounded-2xl border border-dashed border-primary-200 bg-primary-50 gap-4">
           <LoadingSpinner size="lg" />
-          <p className="text-base text-primary-600 text-center px-4 leading-[1.6]">
+          <p className="text-base text-primary-800 text-center px-4 leading-[1.6]">
             Generando tu prueba de {selectedTopic}...
           </p>
         </div>
@@ -230,7 +270,7 @@ export default function EvaluacionPage() {
             <span className="text-base font-medium text-gray-600">
               Pregunta {currentIndex + 1} de {questions.length}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-base text-gray-500">
               {answers.filter((a) => a.isCorrect).length} correcta{answers.filter((a) => a.isCorrect).length !== 1 ? 's' : ''}
             </span>
           </div>
@@ -266,14 +306,14 @@ export default function EvaluacionPage() {
 
               if (showFeedback) {
                 if (index === questions[currentIndex].respuesta_correcta) {
-                  optionStyles = 'bg-green-50 border-green-400 text-green-800';
+                  optionStyles = 'bg-green-50 border-green-200 text-green-800';
                 } else if (index === selectedOption && selectedOption !== questions[currentIndex].respuesta_correcta) {
-                  optionStyles = 'bg-red-50 border-red-300 text-red-800';
+                  optionStyles = 'bg-red-50 border-red-200 text-red-800';
                 } else {
-                  optionStyles = 'bg-white border-gray-200 text-gray-500';
+                  optionStyles = 'bg-white border-gray-100 text-gray-500';
                 }
               } else if (index === selectedOption) {
-                optionStyles = 'bg-primary-50 border-primary-400 text-primary-800';
+                optionStyles = 'bg-primary-50 border-primary-200 text-primary-800';
               }
 
               return (
@@ -328,6 +368,35 @@ export default function EvaluacionPage() {
                 </p>
               </div>
 
+              {/* Botón Explícamelo de otra forma */}
+              <button
+                onClick={handleExplainDifferently}
+                disabled={altLoading}
+                className="self-start min-h-touch px-4 py-2.5 text-base text-accent-900 bg-accent-50 hover:bg-accent-100 border border-accent-200 rounded-2xl transition-colors duration-200 disabled:opacity-60 disabled:cursor-wait"
+                aria-label="Explícamelo de otra forma"
+              >
+                {altLoading ? (
+                  <span className="flex items-center gap-2">
+                    <LoadingSpinner />
+                    Generando...
+                  </span>
+                ) : (
+                  '🔄 Explícamelo de otra forma'
+                )}
+              </button>
+
+              {/* Explicación alternativa */}
+              {altExplanation && (
+                <div
+                  className="px-4 py-4 text-base rounded-xl border bg-accent-50 border-accent-200 text-gray-900"
+                  role="region"
+                  aria-label="Explicación alternativa"
+                >
+                  <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
+                  <p className="leading-[1.6] whitespace-pre-wrap">{altExplanation}</p>
+                </div>
+              )}
+
               {/* Next / See results button */}
               <button
                 onClick={handleNext}
@@ -351,7 +420,7 @@ export default function EvaluacionPage() {
       {phase === 'summary' && (
         <div className="flex flex-col gap-5 flex-1 px-1">
           {/* Score card */}
-          <div className="flex flex-col items-center gap-3 px-4 py-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
+          <div className="flex flex-col items-center gap-3 px-4 py-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
             <p className="text-base text-gray-600">Tu resultado</p>
             <p className="text-4xl font-bold text-primary-700" aria-label={`Puntaje: ${score} de ${questions.length}`}>
               {score}/{questions.length}
@@ -383,23 +452,23 @@ export default function EvaluacionPage() {
                   key={index}
                   className={`px-4 py-3 text-base rounded-xl border ${
                     isCorrect
-                      ? 'bg-green-50 border-green-200'
-                      : 'bg-red-50 border-red-200'
+                      ? 'bg-green-50 border-green-100'
+                      : 'bg-red-50 border-red-100'
                   }`}
                   aria-label={`Pregunta ${index + 1}: ${isCorrect ? 'correcta' : 'incorrecta'}`}
                 >
                   <div className="flex items-start gap-3">
                     <span
-                      className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-sm font-medium ${
+                      className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-base font-medium ${
                         isCorrect
-                          ? 'bg-green-200 text-green-800'
-                          : 'bg-red-200 text-red-800'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
                       }`}
                       aria-hidden="true"
                     >
                       {isCorrect ? '✓' : '✗'}
                     </span>
-                    <p className="text-sm text-gray-700 leading-[1.5] line-clamp-2">
+                    <p className="text-base text-gray-700 leading-[1.5] line-clamp-2">
                       {q.pregunta}
                     </p>
                   </div>
@@ -440,7 +509,7 @@ function LoadingSpinner({ size = 'sm' }) {
 
   return (
     <svg
-      className={`animate-spin ${sizeClasses} text-current`}
+      className={`animate-slow-spin ${sizeClasses} text-current`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

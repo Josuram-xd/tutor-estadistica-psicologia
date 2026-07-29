@@ -15,7 +15,7 @@ export default function ChatPage() {
     <Suspense fallback={
       <div className="flex flex-col h-[calc(100vh-5rem)] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-slow-spin" />
           <p className="text-base text-gray-500">Cargando chat...</p>
         </div>
       </div>
@@ -267,7 +267,7 @@ function ChatContent() {
     return (
       <div className="flex flex-col h-[calc(100vh-5rem)] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-primary-200 border-t-primary-600 rounded-full animate-slow-spin" />
           <p className="text-base text-gray-500">Cargando chat...</p>
         </div>
       </div>
@@ -291,9 +291,9 @@ function ChatContent() {
             <span className="
               inline-flex items-center gap-1.5
               px-3 py-1.5
-              bg-green-50 border border-green-200
+              bg-accent-50 border border-accent-100
               rounded-full
-              text-base text-green-800 font-medium
+              text-base text-accent-900 font-medium
             ">
               <span aria-hidden="true">📎</span>
               Material cargado
@@ -332,10 +332,10 @@ function ChatContent() {
         {isLoading && (
           <div className="flex justify-start mb-4">
             <div className="bg-accent-50 border border-accent-100 rounded-3xl rounded-bl-xl px-5 py-4">
-              <div className="flex items-center gap-1.5" aria-label="El tutor está escribiendo">
-                <span className="w-2 h-2 bg-accent-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                <span className="w-2 h-2 bg-accent-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                <span className="w-2 h-2 bg-accent-400 rounded-full animate-bounce [animation-delay:300ms]" />
+              <div className="flex items-center gap-2" aria-label="El tutor está escribiendo">
+                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse" />
+                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse [animation-delay:400ms]" />
+                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-gentle-pulse [animation-delay:800ms]" />
               </div>
             </div>
           </div>
@@ -350,9 +350,9 @@ function ChatContent() {
         {/* Upload status indicator */}
         {uploadStatus && (
           <div className={`
-            px-3 py-1.5 text-center text-sm font-medium
+            px-3 py-1.5 text-center text-base font-medium
             ${uploadStatus === 'uploading' ? 'bg-primary-50 text-primary-700' : ''}
-            ${uploadStatus === 'success' ? 'bg-green-50 text-green-700' : ''}
+            ${uploadStatus === 'success' ? 'bg-accent-50 text-accent-800' : ''}
             ${uploadStatus === 'error' ? 'bg-red-50 text-red-700' : ''}
           `}>
             {uploadStatus === 'uploading' && '📎 Subiendo material...'}
@@ -372,7 +372,7 @@ function ChatContent() {
             className="
               flex items-center justify-center
               w-11 h-11
-              min-h-[44px] min-w-[44px]
+              min-h-touch min-w-touch
               rounded-full
               bg-gray-100 hover:bg-gray-200
               text-gray-600
@@ -412,11 +412,11 @@ function ChatContent() {
               bg-gray-50
               px-4 py-3
               text-base
-              placeholder:text-gray-400
+              placeholder:text-gray-500
               focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400
               transition-colors
               max-h-32
-              min-h-[44px]
+              min-h-touch
             "
             style={{ fontSize: '16px' }}
             aria-label="Escribe tu mensaje al tutor"

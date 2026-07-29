@@ -47,6 +47,27 @@ button, a, [role="button"] {
   }
 }
 
+/* Limitar animaciones globalmente para accesibilidad (discalculia) */
+/* Spinner de carga más lento y suave — sin movimiento agresivo */
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Pulsación suave para indicador de escritura (reemplaza bounce) */
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 2s linear infinite;
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse 1.8s ease-in-out infinite;
+}
+
 /* Safe areas para dispositivos con notch */
 @supports (padding: env(safe-area-inset-bottom)) {
   .safe-bottom {
@@ -57,20 +78,18 @@ button, a, [role="button"] {
   }
 }
 
-/* Transición suave entre secciones (FR-13, NFR-2) */
+/* Transición suave entre secciones (FR-13, NFR-2) — lenta y sutil */
 @keyframes page-fade-in {
   from {
-    opacity: 0;
-    transform: translateY(8px);
+    opacity: 0.8;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .animate-page-fade-in {
-  animation: page-fade-in 280ms ease-out both;
+  animation: page-fade-in 500ms ease-out both;
 }
 
 @layer utilities {

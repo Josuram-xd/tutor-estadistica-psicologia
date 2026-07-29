@@ -58,7 +58,7 @@ export async function POST(request) {
     const exercisePrompt = getExercisePrompt(topic, level);
 
     // Llamar a Gemini con instrucción de sistema para responder solo con JSON válido
-    const systemInstruction = 'Responde ÚNICAMENTE con JSON válido. Sin markdown, sin backticks, sin texto adicional antes o después del JSON.';
+    const systemInstruction = 'Eres un generador de ejercicios de estadística para estudiantes con discalculia. NUNCA pidas al estudiante que haga cálculos mentales. Los pasos siempre muestran el cálculo ya resuelto y la pregunta final es de interpretación. Responde ÚNICAMENTE con JSON válido. Sin markdown, sin backticks, sin texto adicional antes o después del JSON.';
 
     const responseText = await generateResponse(
       systemInstruction,

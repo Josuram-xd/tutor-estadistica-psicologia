@@ -43,7 +43,6 @@ module.exports = {
       },
       fontSize: {
         // Accessible font sizes — minimum 16px for discalculia support
-        'sm': ['14px', '1.5'],    // Only for labels/captions, never primary text
         'base': ['16px', '1.6'],  // Minimum body text
         'lg': ['18px', '1.6'],
         'xl': ['20px', '1.5'],

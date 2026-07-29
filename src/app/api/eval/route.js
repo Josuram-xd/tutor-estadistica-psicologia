@@ -42,7 +42,7 @@ export async function POST(request) {
     const evalPrompt = getEvalPrompt(topic);
 
     // Llamar a Gemini con instrucción de sistema para generar evaluación
-    const systemInstruction = 'Eres un generador de evaluaciones de estadística. Responde ÚNICAMENTE con JSON válido. Sin markdown, sin backticks, sin texto adicional antes o después del JSON.';
+    const systemInstruction = 'Eres un generador de evaluaciones de estadística para estudiantes con discalculia. NUNCA generes preguntas que pidan al estudiante calcular algo mentalmente. Todas las preguntas deben ser de interpretación y comprensión. Responde ÚNICAMENTE con JSON válido. Sin markdown, sin backticks, sin texto adicional antes o después del JSON.';
 
     const responseText = await generateResponse(
       systemInstruction,

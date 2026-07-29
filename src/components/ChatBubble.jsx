@@ -46,12 +46,12 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
             onClick={onExplainDifferently}
             className="
               mt-2 self-start
-              text-base text-accent-700
+              text-base text-accent-900
               bg-accent-50 hover:bg-accent-100
               border border-accent-200
               rounded-2xl px-4 py-2.5
               transition-colors duration-200
-              min-h-[44px]
+              min-h-touch
             "
             aria-label="Explícamelo de otra forma"
           >

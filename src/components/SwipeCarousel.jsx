@@ -124,7 +124,7 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
           <button
             key={index}
             onClick={() => scrollToSlide(index)}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="min-h-touch min-w-touch flex items-center justify-center"
             role="tab"
             aria-selected={index === activeIndex}
             aria-label={`Ir a slide ${index + 1}: ${getLabelForType(slides[index]?.type)}`}
@@ -144,7 +144,7 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
       {showSkipButton && (
         <button
           onClick={handleSkipToInterpretation}
-          className="fixed bottom-28 right-4 bg-accent-600 hover:bg-accent-700 text-white font-medium text-base px-5 py-3 rounded-2xl shadow-lg z-40 transition-colors duration-200 min-h-[44px]"
+          className="fixed bottom-28 right-4 bg-accent-600 hover:bg-accent-700 text-white font-medium text-base px-5 py-3 rounded-2xl shadow-lg z-40 transition-colors duration-200 min-h-touch"
           aria-label="Saltar directamente a la pregunta de interpretación"
         >
           Saltar a interpretación
@@ -174,18 +174,18 @@ function getLabelForType(type) {
 
 /**
  * Devuelve las clases de estilo para la etiqueta según el tipo.
- * Colores suaves para discalculia (NFR-2).
+ * Colores suaves y consistentes con la paleta de la app (NFR-2).
  */
 function getTagStyles(type) {
   switch (type) {
     case 'contexto':
-      return 'bg-primary-100 text-primary-700';
+      return 'bg-primary-50 text-primary-700';
     case 'paso':
       return 'bg-gray-100 text-gray-700';
     case 'interpretacion':
-      return 'bg-accent-100 text-accent-700';
+      return 'bg-accent-50 text-accent-900';
     case 'feedback':
-      return 'bg-green-100 text-green-700';
+      return 'bg-accent-50 text-accent-800';
     default:
       return 'bg-gray-100 text-gray-600';
   }
