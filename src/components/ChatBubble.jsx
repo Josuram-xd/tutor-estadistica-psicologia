@@ -1,5 +1,7 @@
 'use client';
 
+import { formatMarkdown } from '@/lib/formatMarkdown';
+
 /**
  * ChatBubble — burbujas de chat diferenciadas por rol.
  * - Usuario: alineada a la derecha, color primary suave
@@ -57,28 +59,4 @@ export default function ChatBubble({ role, content, onExplainDifferently }) {
   );
 }
 
-/**
- * Convierte markdown básico a HTML seguro.
- * Soporta: **negritas**, *cursivas*, `código inline`
- * Escapa HTML para prevenir XSS.
- */
-function formatMarkdown(text) {
-  if (!text) return '';
 
-  // Escapar HTML para seguridad
-  let html = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // **negritas**
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-  // *cursivas* (solo si no es parte de negritas ya procesadas)
-  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
-
-  // `código inline`
-  html = html.replace(/`(.+?)`/g, '<code class="bg-gray-200 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>');
-
-  return html;
-}

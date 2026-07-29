@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { formatMarkdown } from '@/lib/formatMarkdown';
 import dynamic from 'next/dynamic';
 
 const SwipeCarousel = dynamic(() => import('@/components/SwipeCarousel'), {
@@ -357,7 +358,7 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
             <p className="font-medium mb-2">
               {isCorrect ? '¡Correcto!' : 'No exactamente'}
             </p>
-            <p className="leading-[1.6]">{feedback}</p>
+            <p className="leading-[1.6]" dangerouslySetInnerHTML={{ __html: formatMarkdown(feedback) }} />
           </div>
 
           {/* Botón Explícamelo de otra forma */}
@@ -385,7 +386,7 @@ function InterpretacionSlide({ pregunta, opciones, respuestaCorrecta, feedback, 
               aria-label="Explicación alternativa"
             >
               <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
-              <p className="leading-[1.6] whitespace-pre-wrap">{altExplanation}</p>
+              <p className="leading-[1.6] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: formatMarkdown(altExplanation) }} />
             </div>
           )}
         </>

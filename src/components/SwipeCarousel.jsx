@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { formatMarkdown } from '@/lib/formatMarkdown';
 
 /**
  * SwipeCarousel — Carrusel CSS scroll-snap para ejercicios paso a paso.
@@ -110,8 +111,12 @@ export default function SwipeCarousel({ slides = [], onSlideChange, className = 
               </span>
 
               {/* Contenido del slide */}
-              <div className="flex-1 text-base leading-[1.6] text-gray-800 break-words">
-                {slide.content}
+              <div className="flex-1 text-base leading-[1.6] text-gray-800 break-words whitespace-pre-wrap">
+                {typeof slide.content === 'string' ? (
+                  <span dangerouslySetInnerHTML={{ __html: formatMarkdown(slide.content) }} />
+                ) : (
+                  slide.content
+                )}
               </div>
             </div>
           </div>

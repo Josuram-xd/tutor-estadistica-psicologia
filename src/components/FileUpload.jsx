@@ -174,6 +174,9 @@ export default function FileUpload({ isOpen, onClose, onUpload }) {
         ref={modalRef}
         className={`
           w-full max-w-mobile
+          max-h-[85vh]
+          overflow-y-auto
+          overscroll-contain
           bg-white
           rounded-t-3xl
           shadow-xl

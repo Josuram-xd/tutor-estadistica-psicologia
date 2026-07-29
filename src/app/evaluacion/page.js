@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { formatMarkdown } from '@/lib/formatMarkdown';
 
 const TOPICS = [
   'Probabilidad',
@@ -363,9 +364,7 @@ export default function EvaluacionPage() {
                     ? '¡Correcto!'
                     : 'Incorrecto'}
                 </p>
-                <p className="leading-[1.6]">
-                  {questions[currentIndex].explicacion}
-                </p>
+                <p className="leading-[1.6]" dangerouslySetInnerHTML={{ __html: formatMarkdown(questions[currentIndex].explicacion) }} />
               </div>
 
               {/* Botón Explícamelo de otra forma */}
@@ -393,7 +392,7 @@ export default function EvaluacionPage() {
                   aria-label="Explicación alternativa"
                 >
                   <p className="font-medium mb-2 text-accent-900">Otra forma de verlo:</p>
-                  <p className="leading-[1.6] whitespace-pre-wrap">{altExplanation}</p>
+                  <p className="leading-[1.6] whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: formatMarkdown(altExplanation) }} />
                 </div>
               )}
 
